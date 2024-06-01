@@ -1,0 +1,45 @@
+steps:
+  - id : 'cloning repo'
+    name: gcr.io/cloud-builders/git
+    args:
+      - clone
+      - 'https://github.com/viks1102/cloud-sql.git'
+    dir: /workspace
+    id: Clone Repository
+
+  - id : 'tf init'   
+    name: 'hashicorp/terraform:1.0.0'
+    args:
+      - '-c'
+      - |
+        cd /workspace/cloud-sql
+        terraform init
+    id: Terraform Init
+    entrypoint: sh
+
+  - id : 'tf plan'   
+    name: 'hashicorp/terraform:1.0.0'
+    args:
+      - '-c'
+      - |
+        cd /workspace/cloud-sql
+        terraform plan -out=tfplan
+    id: Terraform Plan
+    entrypoint: sh
+
+  - id : 'tf apply'    
+    name: 'hashicorp/terraform:1.0.0'
+    args:
+      - '-c'
+      - |
+        cd /workspace/cloud-sql
+        if [ "$BRANCH_NAME" == "main" ]; then
+          echo "Branch is main, applying Terraform plan."
+          terraform apply -input=false tfplan
+        else
+          echo "Branch is not main, skipping Terraform apply."
+        fi
+    id: Terraform Apply
+    entrypoint: sh
+options:
+  logging: CLOUD_LOGGING_ONLY
