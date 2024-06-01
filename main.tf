@@ -1,3 +1,8 @@
+resource "google_project_service" "sqladmin" {
+  service = "sqladmin.googleapis.com"
+  project = var.project_id
+}
+
 resource "google_sql_database" "database" {
   name     = "my-database"
   instance = google_sql_database_instance.mysql.name
