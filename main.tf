@@ -1,10 +1,10 @@
 resource "google_sql_database" "database" {
   name     = "my-database"
-  instance = google_sql_database_instance.instance.name
+  instance = google_sql_database_instance.mysql.name
 }
 
 
-resource "google_sql_database_instance" "default" {
+resource "google_sql_database_instance" "mysql" {
   name             = var.db_instance_name
   database_version = var.db_version
   region           = var.region

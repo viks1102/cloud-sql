@@ -9,7 +9,7 @@ terraform {
     prefix = "state/cloud-sql"
     bucket = "k8s-bucket-tfstate-rand"
   }
-}
+ }
 
 provider "google" {
   project     = var.project_id
