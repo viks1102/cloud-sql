@@ -12,7 +12,7 @@ terraform {
  }
 
 provider "google" {
-  project     = var.project_id
-  region      = var.region
+  project     = "dtonic-demo-k8s"
+  region      = "europe-north1"
 }
 
